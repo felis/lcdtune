@@ -1,0 +1,3 @@
+This is a simple demo program using PIC24 EPMP peripheral to drive HD44780-compatible LCD display.
+The implementation details can be learned from the following article -> [placeholder]. The code was copy/pasted
+from another project therefore the choice of MCU part, crystal speed and timer are somewhat arbitrary.
