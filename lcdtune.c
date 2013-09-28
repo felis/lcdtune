@@ -38,7 +38,7 @@ _CONFIG2
 #define BSP_TMR3_PER_LONG		35000   //Timer3 period for slow commands
 //#define BSP_TMR3_PER_LONG 55000
 
-//LCD buffer - must be power of 2
+//LCD buffer size - must be power of 2
 #define LCD_TX_BUFSIZE 256
 #define LCD_TX_BUFMASK ( LCD_TX_BUFSIZE - 1 )
 
@@ -46,7 +46,7 @@ _CONFIG2
 #error LCD Tx Buffer size is not a power of 2
 #endif
 
-//LCD queue
+//LCD buffer
 uint8_t LcdTx_Buf[LCD_TX_BUFSIZE];
 uint8_t LcdTx_Head;
 volatile uint8_t LcdTx_Tail;
@@ -199,7 +199,7 @@ void MCU_init(void) {
   PMCON1bits.CSF = 0;         // PMCS1 pin used for chip select 1, PMCS2 pin used for chip select 2
   PMCON1bits.ALMODE = 0;      // "smart" address strobes are not used
   PMCON1bits.BUSKEEP = 0;     // bus keeper is not used
-  PMCON1bits.IRQM = 1;        //interrupt at the end of of rd/wr cycle
+  PMCON1bits.IRQM = 0;        //interrupt at the end of of rd/wr cycle
   /**/
   PMCON3bits.PTWREN = 1;      // enable write(rd/WR) strobe port
   PMCON3bits.PTRDEN = 1;      // enable read(enable) strobe port
@@ -248,7 +248,7 @@ void LcdSendByte(uint8_t byte) {
 }
 
 /* Places a command flag to the LCD queue followed by a byte */
-static void LcdSendCmd(uint8_t cmd) {
+void LcdSendCmd(uint8_t cmd) {
 	
 	LcdSendByte( CMDFLAG );   //insert command flag symbol
   LcdSendByte( cmd );    		
